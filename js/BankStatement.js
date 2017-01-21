@@ -40,6 +40,12 @@ var CategoryCell = React.createClass({
     this.refs.newCategory.value = ''
   },
 
+  handleKeyPress: function(event) {
+    if (event.key == 'Enter') {
+      this.handleButtonClick()
+    }
+  },
+
   renderCategory(text, i) {
     return (
       <CategoryTag key={i} index={i} category={text}
@@ -58,7 +64,7 @@ var CategoryCell = React.createClass({
         <div className="categoryArray">{renderedCategories}</div>
         {this.state.categories[0] ? <br /> : <div />}
         <div className="categoryInput">
-          <input ref="newCategory"/>
+          <input ref="newCategory" onKeyPress={this.handleKeyPress}/>
           <button onClick={this.handleButtonClick}>
             Add Category
           </button>
