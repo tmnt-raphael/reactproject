@@ -2,9 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 var CategoryTag = React.createClass({
+  remove() {
+    this.props.deleteFromCell(this.props.index)
+  },
+
   render() {
     return (
-      <div></div>
+      <div>
+        <span className="categoryTag">
+          {this.props.category}
+          <span className='close' onClick={this.remove}> ×</span>
+        </span>
+      </div>
     )
   }
 })
@@ -14,33 +23,46 @@ var CategoryCell = React.createClass({
     return {categories: []}
   },
 
-  handleClick() {
-    var myCategory = document.getElementById("newCategory").value
+  removeTag(i) {
+    var arr = this.state.categories;
+    arr.splice(i, 1)
+    this.setState({categories: arr})
+  },
+
+  handleButtonClick() {
+    var myCategory = this.refs.newCategory.value
     if (myCategory == "") {
       return
     }
     var myCategories = this.state.categories
     myCategories.push(myCategory)
     this.setState({categories: myCategories})
+    this.refs.newCategory.value = ''
+  },
+
+  renderCategory(text, i) {
+    return (
+      <CategoryTag key={i} index={i} category={text}
+          deleteFromCell={this.removeTag}>
+        {text}
+      </CategoryTag>
+    )
   },
 
   render() {
-
     {/* renders the categories into html */}
-    var renderedCategories = []
-    var numOfCategories = this.state.categories.length
-    for (var i = 0; i < numOfCategories; i++) {
-      renderedCategories.push(<span>{this.state.categories[i]}</span>)
-      renderedCategories.push(<br />)
-    }
+    var renderedCategories = [this.state.categories.map(this.renderCategory)]
 
     return (
       <td>
-        {renderedCategories}
-        <input id="newCategory"/>
-        <button onClick={this.handleClick}>
-          Add Category
-        </button>
+        <div className="categoryArray">{renderedCategories}</div>
+        {this.state.categories[0] ? <br /> : <div />}
+        <div className="categoryInput">
+          <input ref="newCategory"/>
+          <button onClick={this.handleButtonClick}>
+            Add Category
+          </button>
+        </div>
       </td>
     )
   }
@@ -66,17 +88,17 @@ class App extends React.Component {
     this.state = {
       totalBalance: 5725,
       transactions: {
-        '9/22': [{
-          name: 'Veselka',
-          amount: 13
+        '8/21': [{
+          name: 'Mike & Ike Bakery',
+          amount: 30
         }, {
-          name: 'Deposit',
-          amount: 1002
+          name: 'Check #1234',
+          amount: 1050
         }],
 
-        '9/21': [{
-          name: 'Amazon',
-          amount: 250
+        '8/15': [{
+          name: 'Dry Cleaning',
+          amount: 25
         }]
       }
     }

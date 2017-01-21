@@ -46,14 +46,273 @@
 
 	'use strict';
 
-	var _BankStatement = __webpack_require__(179);
+	var _BankStatement = __webpack_require__(1);
 
 	var _BankStatement2 = _interopRequireDefault(_BankStatement);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CategoryTag = _react2.default.createClass({
+	  displayName: 'CategoryTag',
+	  remove: function remove() {
+	    this.props.deleteFromCell(this.props.index);
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'categoryTag' },
+	        this.props.category,
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'close', onClick: this.remove },
+	          ' \xD7'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	var CategoryCell = _react2.default.createClass({
+	  displayName: 'CategoryCell',
+	  getInitialState: function getInitialState() {
+	    return { categories: [] };
+	  },
+	  removeTag: function removeTag(i) {
+	    var arr = this.state.categories;
+	    arr.splice(i, 1);
+	    this.setState({ categories: arr });
+	  },
+	  handleButtonClick: function handleButtonClick() {
+	    var myCategory = this.refs.newCategory.value;
+	    if (myCategory == "") {
+	      return;
+	    }
+	    var myCategories = this.state.categories;
+	    myCategories.push(myCategory);
+	    this.setState({ categories: myCategories });
+	    this.refs.newCategory.value = '';
+	  },
+	  renderCategory: function renderCategory(text, i) {
+	    return _react2.default.createElement(
+	      CategoryTag,
+	      { key: i, index: i, category: text,
+	        deleteFromCell: this.removeTag },
+	      text
+	    );
+	  },
+	  render: function render() {
+	    {/* renders the categories into html */}
+	    var renderedCategories = [this.state.categories.map(this.renderCategory)];
+
+	    return _react2.default.createElement(
+	      'td',
+	      null,
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'categoryArray' },
+	        renderedCategories
+	      ),
+	      this.state.categories[0] ? _react2.default.createElement('br', null) : _react2.default.createElement('div', null),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'categoryInput' },
+	        _react2.default.createElement('input', { ref: 'newCategory' }),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleButtonClick },
+	          'Add Category'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	var TableRow = function (_React$Component) {
+	  _inherits(TableRow, _React$Component);
+
+	  function TableRow() {
+	    _classCallCheck(this, TableRow);
+
+	    return _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).apply(this, arguments));
+	  }
+
+	  _createClass(TableRow, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'tr',
+	        null,
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          this.props.date
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          '$',
+	          this.props.amount
+	        ),
+	        _react2.default.createElement(CategoryCell, null)
+	      );
+	    }
+	  }]);
+
+	  return TableRow;
+	}(_react2.default.Component);
+
+	var App = function (_React$Component2) {
+	  _inherits(App, _React$Component2);
+
+	  function App(props) {
+	    _classCallCheck(this, App);
+
+	    var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+	    _this2.state = {
+	      totalBalance: 5725,
+	      transactions: {
+	        '8/21': [{
+	          name: 'Mike & Ike Bakery',
+	          amount: 30
+	        }, {
+	          name: 'Check #1234',
+	          amount: 1050
+	        }],
+
+	        '8/15': [{
+	          name: 'Dry Cleaning',
+	          amount: 25
+	        }]
+	      }
+	    };
+	    return _this2;
+	  }
+
+	  _createClass(App, [{
+	    key: 'getTransactions',
+	    value: function getTransactions() {
+	      var rows = [];
+
+	      var dates = Object.keys(this.state["transactions"]);
+	      for (var i = 0; i < dates.length; i++) {
+	        var date = dates[i];
+	        var items = this.state["transactions"][date];
+	        for (var j = 0; j < items.length; j++) {
+	          var item = items[j];
+	          rows.push(_react2.default.createElement(TableRow, { key: rows.length - 1, date: date, name: item.name,
+	            amount: item.amount }));
+	        }
+	      }
+
+	      return rows;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+
+	      {/* creates the rows of the table of transactions */}
+	      var rows = this.getTransactions();
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Bank Statment'
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Total balance: $',
+	          this.state.totalBalance
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'The following table contains your transaction history:'
+	        ),
+	        _react2.default.createElement(
+	          'table',
+	          null,
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Date'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Name'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Amount'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Categories'
+	              )
+	            ),
+	            rows
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { style: { display: 'flex', justifyContent: 'center' } },
+	          Object.keys(this.state).length ? "End of transactions." : "No transactions."
+	        )
+	      );
+	    }
+	  }]);
+
+	  return App;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('container'));
+
+/***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21465,237 +21724,6 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CategoryTag = _react2.default.createClass({
-	  displayName: 'CategoryTag',
-	  render: function render() {
-	    return _react2.default.createElement('div', null);
-	  }
-	});
-
-	var CategoryCell = _react2.default.createClass({
-	  displayName: 'CategoryCell',
-	  getInitialState: function getInitialState() {
-	    return { categories: [] };
-	  },
-	  handleClick: function handleClick() {
-	    var myCategory = document.getElementById("newCategory").value;
-	    if (myCategory == "") {
-	      return;
-	    }
-	    var myCategories = this.state.categories;
-	    myCategories.push(myCategory);
-	    this.setState({ categories: myCategories });
-	  },
-	  render: function render() {
-
-	    {/* renders the categories into html */}
-	    var renderedCategories = [];
-	    var numOfCategories = this.state.categories.length;
-	    for (var i = 0; i < numOfCategories; i++) {
-	      renderedCategories.push(_react2.default.createElement(
-	        'span',
-	        null,
-	        this.state.categories[i]
-	      ));
-	      renderedCategories.push(_react2.default.createElement('br', null));
-	    }
-
-	    return _react2.default.createElement(
-	      'td',
-	      null,
-	      renderedCategories,
-	      _react2.default.createElement('input', { id: 'newCategory' }),
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.handleClick },
-	        'Add Category'
-	      )
-	    );
-	  }
-	});
-
-	var TableRow = function (_React$Component) {
-	  _inherits(TableRow, _React$Component);
-
-	  function TableRow() {
-	    _classCallCheck(this, TableRow);
-
-	    return _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).apply(this, arguments));
-	  }
-
-	  _createClass(TableRow, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'tr',
-	        null,
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          this.props.date
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          this.props.name
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          '$',
-	          this.props.amount
-	        ),
-	        _react2.default.createElement(CategoryCell, null)
-	      );
-	    }
-	  }]);
-
-	  return TableRow;
-	}(_react2.default.Component);
-
-	var App = function (_React$Component2) {
-	  _inherits(App, _React$Component2);
-
-	  function App(props) {
-	    _classCallCheck(this, App);
-
-	    var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-	    _this2.state = {
-	      totalBalance: 5725,
-	      transactions: {
-	        '9/22': [{
-	          name: 'Veselka',
-	          amount: 13
-	        }, {
-	          name: 'Deposit',
-	          amount: 1002
-	        }],
-
-	        '9/21': [{
-	          name: 'Amazon',
-	          amount: 250
-	        }]
-	      }
-	    };
-	    return _this2;
-	  }
-
-	  _createClass(App, [{
-	    key: 'getTransactions',
-	    value: function getTransactions() {
-	      var rows = [];
-
-	      var dates = Object.keys(this.state["transactions"]);
-	      for (var i = 0; i < dates.length; i++) {
-	        var date = dates[i];
-	        var items = this.state["transactions"][date];
-	        for (var j = 0; j < items.length; j++) {
-	          var item = items[j];
-	          rows.push(_react2.default.createElement(TableRow, { key: rows.length - 1, date: date, name: item.name,
-	            amount: item.amount }));
-	        }
-	      }
-
-	      return rows;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-
-	      {/* creates the rows of the table of transactions */}
-	      var rows = this.getTransactions();
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Bank Statment'
-	        ),
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          'Total balance: $',
-	          this.state.totalBalance
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          'The following table contains your transaction history:'
-	        ),
-	        _react2.default.createElement(
-	          'table',
-	          null,
-	          _react2.default.createElement(
-	            'tbody',
-	            null,
-	            _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Date'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Name'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Amount'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Categories'
-	              )
-	            ),
-	            rows
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { style: { display: 'flex', justifyContent: 'center' } },
-	          Object.keys(this.state).length ? "End of transactions." : "No transactions."
-	        )
-	      );
-	    }
-	  }]);
-
-	  return App;
-	}(_react2.default.Component);
-
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('container'));
 
 /***/ }
 /******/ ]);
