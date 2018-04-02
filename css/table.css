@@ -1,0 +1,44 @@
+body {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.categoryTag {
+    border-radius: 25px;
+    border: 1px solid DodgerBlue;
+    padding-top: 1px;
+    padding-right: 5px;
+    padding-bottom: 1px;
+    padding-left: 7px;
+    background-color: lavender;
+    font-size: 9pt;
+    float: left;
+    margin-right: 1px;
+}
+
+.close {
+    cursor: pointer;
+    color: DodgerBlue;
+}
+
+.categoryInput {
+    display: inline-block;
+}
+
+.categoryArray {
+    margin-bottom: 2px;
+}
